@@ -2,19 +2,20 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/laply/coin/blockchain"
+	"log"
+	"net/http"
 )
 
+const port string = ":4000"
+
+
+func home(rw http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(rw, "Hello Home")
+}
+
 func main() {
-	chain := blockchain.GetBlockChain()
-	chain.AddBlock("Second Block")
-	chain.AddBlock("Third Block")
-	chain.AddBlock("Forth  Block")
+	http.HandleFunc("/", home)
 
-
-	for _, block := range(chain.AllBlocks()) {
-		fmt.Println(*block)
-	}
-
+	fmt.Printf("Listening on http://localhost%s\n", port)
+	log.Fatal(http.ListenAndServe(port, nil))
 }
