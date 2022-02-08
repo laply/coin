@@ -9,3 +9,6 @@ POST http://localhost:4210/blocks
 {
     "Message":"Data fore my block"
 }
+
+###
+http://localhost:4210/blocks/4
