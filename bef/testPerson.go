@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/laply/coin/person"
+	"github.com/laply/coin/bef/person"
 )
 
 func testPerson() {
