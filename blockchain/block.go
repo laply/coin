@@ -2,6 +2,7 @@ package blockchain
 
 import (
 	"crypto/sha256"
+	"errors"
 	"fmt"
 
 	"github.com/laply/coin/db"
@@ -20,6 +21,11 @@ func (b *Block) persist() {
 	db.SaveBlock(b.Hash, utils.ToBytes(b))
 }
 
+func (b *Block) restore(data []byte){
+	utils.FromByte(b, data)
+
+}
+
 func createBlock(data string, prevHash string, height int) *Block {
 	block := &Block {
 		Data: data,
@@ -33,4 +39,17 @@ func createBlock(data string, prevHash string, height int) *Block {
 
 	block.persist()
 	return block
+}
+
+var ErrNotFound = errors.New("")
+
+func FindBlock(hash string) (*Block, error){
+	blockByte := db.GetBlock(hash)
+	if blockByte == nil {
+		return nil, ErrNotFound
+	}
+	block := &Block{}
+	block.restore(blockByte)
+
+	return block, nil
 }

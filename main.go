@@ -2,12 +2,17 @@ package main
 
 import (
 	"github.com/laply/coin/blockchain"
-	// "github.com/laply/coin/cli"
+	"github.com/laply/coin/cli"
+	"github.com/laply/coin/db"
 )
 
 func main() {
-	//cli.Start()
+	defer db.Close()
+
 	blockchain.BlockChain()
+
+	cli.Start()
+	
 }
 
 

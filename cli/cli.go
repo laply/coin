@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"runtime"
 
 	"github.com/laply/coin/explorer"
 	"github.com/laply/coin/rest"
@@ -14,6 +15,7 @@ func usage () {
 	fmt.Printf("Can use the following flags:\n\n")
 	fmt.Printf("-port : 	Set the PORT of the server\n")
 	fmt.Printf("-mode : 	Choose between 'html' and 'rest'  \n\n")
+	runtime.Goexit()
 	// os.Exit(0)
 }
 
