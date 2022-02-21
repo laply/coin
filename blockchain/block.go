@@ -2,7 +2,6 @@ package blockchain
 
 import (
 	"errors"
-	"fmt"
 	"strings"
 	"time"
 
@@ -11,13 +10,13 @@ import (
 )
 
 type Block struct {
-	Data string `json:"data"`
-	Hash string `json:"hash"`
-	PrevHash string `json:"prevHash,omitempty"`
-	Height int `json:"height"`
-	Difficulty int `json:"difficulty"`
-	Nonce int `json:"nonce"`
-	TimeStamp int `json:"timestemp"`
+	Transaction []*Tx 	`json:"transection"`
+	Hash string 		`json:"hash"`
+	PrevHash string 	`json:"prevHash,omitempty"`
+	Height int 			`json:"height"`
+	Difficulty int 		`json:"difficulty"`
+	Nonce int 			`json:"nonce"`
+	TimeStamp int		`json:"timestemp"`
 }
 
 func (b *Block) persist() {
@@ -33,7 +32,7 @@ func (b *Block) mine() {
 	for {
 		b.TimeStamp = int(time.Now().Unix())
 		hash := utils.Hash(b)
-		fmt.Printf("\n\n\nTarget:%s\nHash:%s\nNonce:%d\n\n\n", target, hash, b.Nonce)
+		// fmt.Printf("\n\n\nTarget:%s\nHash:%s\nNonce:%d\n\n\n", target, hash, b.Nonce)
 
 		if strings.HasPrefix(hash, target){
 			b.Hash = hash
@@ -44,9 +43,9 @@ func (b *Block) mine() {
 	}
 }
 
-func createBlock(data string, prevHash string, height int) *Block {
+func createBlock(prevHash string, height int) *Block {
 	block := &Block {
-		Data: data,
+		Transaction: []*Tx{makeCoinbaseTx("laply")},
 		Hash: "",
 		PrevHash: prevHash,
 		Height: height,

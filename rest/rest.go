@@ -8,7 +8,6 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/laply/coin/blockchain"
-	"github.com/laply/coin/utils"
 )
 
 var port string
@@ -27,9 +26,6 @@ type urlDescription struct {
 
 func (u urlDescription) String() string {
 	return "This is URLDescription"
-}
-type AddBlockBody struct {
-	Message string
 }
 
 type errorResponse struct {
@@ -74,9 +70,7 @@ func blocks(rw http.ResponseWriter, r *http.Request) {
 	case "GET":
 		json.NewEncoder(rw).Encode(blockchain.BlockChain().Blocks())
 	case "POST":
-		var addBlockBody AddBlockBody 
-		utils.HandleErr(json.NewDecoder(r.Body).Decode(&addBlockBody))
-		blockchain.BlockChain().AddBlock(addBlockBody.Message)
+		blockchain.BlockChain().AddBlock()
 		rw.WriteHeader(http.StatusCreated)
 	}
 }

@@ -12,13 +12,12 @@ const (
 	difficultyInterval 	int = 5
 	blockInterval 	   	int = 2
 	rangeTime 			int = 3
-
 )
 
 type blockChain struct {
-	NewestHash string `json:"newestHash"`
-	Height int `json:"height"`
-	CurrentDifficulty int `json:"currentDifficulty"`
+	NewestHash string 		`json:"newestHash"`
+	Height int 				`json:"height"`
+	CurrentDifficulty int	`json:"currentDifficulty"`
 }
 
 var b * blockChain;
@@ -32,8 +31,8 @@ func (b *blockChain) persist() {
 	db.SaveBlockChain(utils.ToBytes(b))
 }
 
-func (b *blockChain) AddBlock(data string){
-  block := createBlock(data, b.NewestHash, b.Height + 1)
+func (b *blockChain) AddBlock(){
+  block := createBlock( b.NewestHash, b.Height + 1)
   b.NewestHash = block.Hash
   b.Height = block.Height
   b.CurrentDifficulty = block.Difficulty
@@ -90,7 +89,7 @@ func BlockChain() *blockChain {
 			}
 			checkpoint := db.GetCheckpoint()
 			if checkpoint == nil {
-				b.AddBlock("Genesis Block")
+				b.AddBlock()
 			} else {
 				fmt.Println("Restoring...")
 				b.restore(checkpoint)
